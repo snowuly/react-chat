@@ -1,38 +1,174 @@
-.App {
-  text-align: center;
-}
+$border-color: #eee;
+$active-color: #1679f5;
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+#root {
   display: flex;
-  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  height: 100vh;
+  min-height: 400px;
 }
 
-.App-link {
-  color: #61dafb;
-}
+.wrapper {
+  width: 100%;
+  max-width: 1024px;
+  min-width: 500px;
+  margin: 0 auto;
+  height: 100%;
+  max-height: 800px;
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+  .active {
+    color: $active-color;
   }
-  to {
-    transform: rotate(360deg);
+
+  a {
+    transition: all 0.3s;
+    cursor: pointer;
+
+    &:hover {
+      color: $active-color;
+    }
+  }
+
+  > header {
+    border-bottom: 1px solid $border-color;
+    padding-bottom: 2px;
+    margin-top: 6px;
+  }
+
+  > main {
+    height: calc(100% - 120px);
+    display: flex;
+    border-left: 1px solid $border-color;
+    border-right: 1px solid $border-color;
+    position: relative;
+
+    .news {
+      position: absolute;
+      left: 2px;
+      bottom: 2px;
+      font-size: 10px;
+      border: 1px solid $active-color;
+      border-radius: 5px;
+      padding: 0 4px;
+      z-index: 1;
+      background-color: #fff;
+      cursor: pointer;
+      color: $active-color;
+      opacity: .8;
+    }
+
+    > section {
+      flex: 1;
+      word-break: break-all;
+      overflow-y: scroll;
+      padding: 2px 10px 2px 2px;
+      position: relative;
+
+
+      li {
+        list-style: none;
+        padding: 6px 2px;
+        border-bottom: 1px dashed $border-color;
+
+        .prefix {
+          color: #666;
+          font-style: italic;
+
+          * {
+            margin-right: 4px;
+            &:last-child {
+              margin-right: 0;
+            }
+          }
+        }
+      }
+    }
+
+    > aside {
+      width: 180px;
+      border-left: 1px solid $border-color;
+
+      header {
+        border-bottom: 1px solid $border-color;
+        padding: 2px;
+      }
+
+      ul {
+        padding-left: 4px;
+        list-style: none;
+        margin: 6px 0;
+
+        li {
+          border-bottom: 1px dashed $border-color;
+          padding: 2px 0;
+        }
+      }
+    }
+  }
+
+  > footer {
+    height: 80px;
+    display: flex;
+
+    .send {
+      width: 150px;
+      border: 1px solid $border-color;
+      border-right: none;
+      display: flex;
+      flex-direction: column;
+
+      &-to {
+        display: flex;
+        align-items: center;
+        flex: 1;
+        select {
+          flex: 1;
+        }
+      }
+
+      &-info {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        border-top: 1px solid $border-color;
+      }
+
+      &-private {
+        flex: 1;
+        text-align: center;
+      }
+
+      &-btn {
+        flex: 1;
+        border-left: 1px solid $border-color;
+        height: 100%;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+    }
+
+    .input {
+      height: 100%;
+      flex: 1;
+      border: 1px solid $border-color;
+      box-sizing: border-box;
+      transition: all 0.3s;
+
+      &.focus {
+        border-color: $active-color;
+      }
+
+      textarea {
+        display: block;
+        resize: none;
+        border: none;
+        outline: none;
+        height: 100%;
+        width: 100%;
+        box-sizing: border-box;
+      }
+    }
   }
 }

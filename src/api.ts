@@ -2,16 +2,25 @@ export const getUser = () => request(
   '/go/user?t=' + Date.now().toString(36),
 )
 
-export const sendMsg = (from: string, to: string, txt: string, pri: Boolean) => reqAlert(
+export const sendMsg = (to: string, txt: string, pri: Boolean) => reqAlert(
   '/go/send',
   'POST',
-  { from, to, txt, pri: pri ? "1" : "" }
+  { to, txt, pri: pri ? "1" : "" }
 )
 
 export const login = (secret: string) => reqAlert(
   '/go/login',
   'POST',
   `secret=${encodeURIComponent(secret)}`,
+)
+
+export const isAdmin = () => reqAlert(
+  '/go/admin',
+)
+
+export const clearLog = () => reqAlert(
+  '/go/clear',
+  'POST',
 )
 
 const request = async (path: string, method: 'GET' | 'POST' = 'GET', body?: string | { [x: string]: string }): Promise<string | undefined> => {
@@ -40,7 +49,9 @@ const reqAlert = async (path: string, method: 'GET' | 'POST' = 'GET', body?: str
   try {
     return await request(path, method, body)
   } catch (e: unknown) {
-    alert((e as { code: number }).code + ': ' + (e as { msg: string }).msg)
+    Promise.resolve().then(() => {
+      alert((e as { code: number }).code + ': ' + (e as { msg: string }).msg)
+    })
     return undefined
   }
 }

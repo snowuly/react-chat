@@ -3,10 +3,15 @@ import { ReactNode } from "react";
 const emotion_prefix = 'https://chentao.me/static/emotion/';
 
 // [流鼻血][捂脸哭][开心][色][衰][送花花]
-const tag2index: { [x: string]: number | undefined } = {
+export const tag2index: { [x: string]: number | undefined } = {
   狗头: 97,
   流鼻血: 85,
   开心: 113,
+  微笑: 1,
+  色: 3,
+  发呆: 4,
+  衰: 39,
+  加油: 28,
 }
 export const tag2url = (tag: string): (string | undefined) => {
   const type = 'png'
@@ -15,7 +20,17 @@ export const tag2url = (tag: string): (string | undefined) => {
     return undefined
   }
 
-  return `${emotion_prefix}${index < 100 ? `0` : ''}${index}.${type}`
+  return `${emotion_prefix}${index2str(index)}.${type}`
+}
+
+const index2str = (n: number) => {
+  let prefix = ''
+  let m = n
+  while (m < 100) {
+    prefix += '0'
+    m *= 10
+  }
+  return `${prefix}${n}`
 }
 
 export enum MsgItemType {
@@ -85,7 +100,6 @@ const converge = (arr: MsgItem[]): MsgItem[] => {
       r.push(cur)
       continue
     }
-    console.log('combine last two els', last.value as string, cur.value)
     r[r.length - 1] = {
       type: MsgItemType.TEXT,
       value: last.value + cur.value,

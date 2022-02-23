@@ -1,0 +1,10 @@
+.popover-wrapper {
+  position: absolute;
+  z-index: 99;
+  background-color: #fff;
+  border-radius: 2px;
+  padding: 12px 16px;
+  left: -1000px;
+  top: -2000px;
+  box-shadow: 0 0 4px 2px #ccc;
+}

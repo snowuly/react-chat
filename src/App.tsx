@@ -4,7 +4,9 @@ import './App.scss';
 
 import { getUser, login, sendMsg, isAdmin, clearLog } from './api'
 import Info from './components/Info'
-import { msg2items, MsgItemType, MsgItem } from './utils'
+import { msg2items, MsgItemType, MsgItem, tag2index, tag2url } from './utils'
+import Popover from './components/popover'
+import happy from './happy.svg'
 
 interface Msg {
   ID: string
@@ -79,6 +81,21 @@ function App() {
   useEffect(() => {
     init();
   }, [])
+
+  const insertEmotion = (tag: string) => {
+    const el = inputRef.current!
+    el.focus()
+    el.setRangeText(`[${tag}]`, el.selectionStart, el.selectionEnd, 'end')
+  }
+
+  const overlay = useMemo(() => Object.keys(tag2index)
+    .map(tag => (
+      <img
+        src={tag2url(tag)}
+        onClick={() => insertEmotion(tag)}
+      />
+    )
+  ), [])
 
   const outputRef = useRef<HTMLDivElement>(null)
   const bottomRef = useRef<HTMLDivElement>(null)
@@ -318,6 +335,12 @@ function App() {
                 <option key={item} value={item}>{ item }</option>
               )) }
             </select>
+            <Popover
+              content={overlay}
+              className="happy-cnt"
+            >
+              <img className="happy" src={happy} />
+            </Popover>
           </div>
           <div className="send-info">
             <div className="send-private">
@@ -340,6 +363,7 @@ function App() {
             onBlur={() => setInputFocus(false)}
             ref={inputRef}
             onKeyDown={onKeyDown}
+            spellCheck={false}
           />
         </div>
       </footer>

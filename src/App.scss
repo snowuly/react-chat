@@ -144,6 +144,11 @@ $active-color: #1679f5;
         select {
           flex: 1;
         }
+
+        .happy {
+          width: 30px;
+          cursor: pointer;
+        }
       }
 
       &-info {
@@ -190,5 +195,18 @@ $active-color: #1679f5;
         box-sizing: border-box;
       }
     }
+  }
+}
+
+.happy-cnt {
+  display: grid;
+  grid-template-columns: repeat(6, 30px);
+  row-gap: 6px;
+  column-gap: 6px;
+
+  img {
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
   }
 }

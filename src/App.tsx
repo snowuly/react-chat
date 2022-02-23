@@ -104,7 +104,7 @@ function App() {
 
   const needScroll = () => {
     const output = outputRef.current!
-    return scrolling.current || output.scrollTop + output.offsetHeight >= output.scrollHeight - 36
+    return scrolling.current || output.scrollTop + output.offsetHeight >= output.scrollHeight - 66
   }
 
   const scrollToBottom = (auto = false) => {

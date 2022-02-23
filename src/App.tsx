@@ -1,9 +1,10 @@
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import dayjs from 'dayjs'
 import './App.scss';
 
 import { getUser, login, sendMsg, isAdmin, clearLog } from './api'
 import Info from './components/Info'
+import { msg2items, MsgItemType, MsgItem } from './utils'
 
 interface Msg {
   ID: string
@@ -12,6 +13,7 @@ interface Msg {
   Txt: string
   Time: number
   Pri: boolean
+  items: MsgItem[]
 }
 
 interface User {
@@ -127,6 +129,7 @@ function App() {
       needRef.current = needScroll()
 
       const m: Msg = JSON.parse((evt as MessageEvent).data)
+      m.items = msg2items(m.Txt)
       setMsgs(value => value.concat(m))
 
       if (m.To === user) {
@@ -137,7 +140,10 @@ function App() {
 
     evtSrc.addEventListener('log', evt => {
       const m: Msg[] = JSON.parse((evt as MessageEvent).data)
-      setMsgs(m)
+      setMsgs(m.map(item => ({
+        ...item,
+        items: msg2items(item.Txt),
+      })))
 
       scrollToBottom(true)
     })
@@ -248,6 +254,7 @@ function App() {
   return (
     <div className="wrapper">
       <header>
+        <img className="emotion" src="https://chentao.me/static/emotion/097.png" />
         { user && <><em>{user}</em>，你好！</> }
         <button onClick={() => doLogin()}>{user ? '切换' : '登录'}</button>
         { admin && (
@@ -272,7 +279,11 @@ function App() {
                 { item.To !== "" && <><span>对</span><span className={item.To === user ? 'active' : undefined}>{ item.To }</span></> }
                 <span>说：</span>
               </span>
-              <span>{ item.Txt }</span>
+              <span>{ item.items.map(item => (
+                item.type === MsgItemType.TEXT
+                  ? item.value
+                  : <img className="emotion" src={item.value} />
+              )) }</span>
             </li>
           )) }
           <div ref={bottomRef} className="bottom"></div>

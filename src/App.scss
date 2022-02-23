@@ -17,6 +17,13 @@ $active-color: #1679f5;
   max-height: 800px;
   color: #333;
 
+  .emotion {
+    width: 32px;
+    height: 32px;
+    vertical-align: bottom;
+    margin: 0 1px;
+  }
+
   .active {
     color: $active-color;
   }
@@ -76,6 +83,7 @@ $active-color: #1679f5;
         list-style: none;
         padding: 6px 2px;
         border-bottom: 1px dashed $border-color;
+        line-height: 26px;
 
         .prefix {
           color: #666;

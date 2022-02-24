@@ -4,9 +4,10 @@ import './App.scss';
 
 import { getUser, login, sendMsg, isAdmin, clearLog } from './api'
 import Info from './components/Info'
-import { msg2items, MsgItemType, MsgItem, tag2index, tag2url } from './utils'
+import { msg2items, MsgItemType, MsgItem, tag2index, tag2url, tag2dom } from './utils'
 import Popover from './components/popover'
 import happy from './happy.svg'
+import useRecentEmotion from './hooks/useRecentEmotion'
 
 interface Msg {
   ID: string
@@ -82,11 +83,33 @@ function App() {
     init();
   }, [])
 
-  const insertEmotion = (tag: string) => {
-    const el = inputRef.current!
-    el.focus()
-    el.setRangeText(`[${tag}]`, el.selectionStart, el.selectionEnd, 'end')
-  }
+
+  // --------- emotion float layer --------------
+  const [ tags, setLastTag ] = useRecentEmotion()
+
+  const insertEmotion = useCallback((tag: string) => {
+      const el = inputRef.current!
+      el.focus()
+      el.setRangeText(`[${tag}]`, el.selectionStart, el.selectionEnd, 'end')
+      setLastTag(tag)
+  }, [])
+
+  const bindTag2dom = useMemo(() => tag2dom.bind(null, insertEmotion), [])
+
+  const layer = useMemo(() => (
+    <>
+      { tags.length > 0 && (<>
+        <header>常用表情</header>
+        <main>
+          { tags.map(bindTag2dom) }
+        </main>
+      </>) }
+      <header>默认表情</header>
+      <main>
+        { Object.keys(tag2index).map(bindTag2dom) }
+      </main>
+    </>
+  ), [tags])
 
   const overlay = useMemo(() => Object.keys(tag2index)
     .map(tag => (
@@ -96,7 +119,7 @@ function App() {
         onClick={() => insertEmotion(tag)}
       />
     )
-  ), [])
+  ), [tags])
 
   const outputRef = useRef<HTMLDivElement>(null)
   const bottomRef = useRef<HTMLDivElement>(null)
@@ -337,7 +360,7 @@ function App() {
               )) }
             </select>
             <Popover
-              content={overlay}
+              content={layer}
               className="happy-cnt"
             >
               <img className="happy" src={happy} />

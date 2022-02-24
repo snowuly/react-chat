@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import { MouseEventHandler, ReactNode } from "react";
 
 const emotion_prefix = 'https://chentao.me/static/emotion/';
 
@@ -121,3 +121,11 @@ export const msg2items = (msg: string) => converge(msg2arr(msg))
 //   const arr = msg2arr(msg)
 //   return converge(arr)
 // }
+
+export const tag2dom = (clickHandler: (tag: string) => void, tag: string) => (
+  <img
+    src={tag2url(tag)}
+    title={tag}
+    onClick={() => clickHandler(tag)}
+  />
+)

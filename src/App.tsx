@@ -15,7 +15,7 @@ interface Msg {
   To: string
   Txt: string
   Time: number
-  Pri: boolean
+  Priv: boolean
   items: MsgItem[]
 }
 
@@ -316,7 +316,7 @@ function App() {
                   title={dayjs(item.Time*1000).format(fullFormat)}
                 >{dayjs(item.Time*1000).format(format)}</span>
                 <span className={item.From === user ? 'active' : undefined}>{ item.From }</span>
-                { item.Pri && <span>悄悄地</span> }
+                { item.Priv && <span>悄悄地</span> }
                 { item.To !== "" && <><span>对</span><span className={item.To === user ? 'active' : undefined}>{ item.To }</span></> }
                 <span>说：</span>
               </span>

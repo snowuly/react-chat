@@ -91,6 +91,7 @@ function App() {
   const overlay = useMemo(() => Object.keys(tag2index)
     .map(tag => (
       <img
+        title={tag}
         src={tag2url(tag)}
         onClick={() => insertEmotion(tag)}
       />

@@ -13,12 +13,18 @@ const Popover: FC<Props> = ({ content, children, className }) => {
   const wrapper = useRef<HTMLDivElement>(null)
   const [pos, setPos] = useState({ x: 0, y: 0, w: 0 })
 
-  const onClick = () => {
+  const onClick = (e: MouseEvent) => {
+    e.stopPropagation();
+    if (visible) {
+      setVisible(false)
+      return
+    }
+
     const rect = trigger.current!.getBoundingClientRect()
     setPos({ x: rect.x, y: rect.y, w: rect.width })
 
     setTimeout(() => {
-      setVisible(v => !v)
+      setVisible(v => true)
     }, 0)
   }
 

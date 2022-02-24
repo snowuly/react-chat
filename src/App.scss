@@ -200,9 +200,11 @@ $active-color: #1679f5;
 
 .happy-cnt {
   display: grid;
-  grid-template-columns: repeat(6, 30px);
+  grid-template-columns: repeat(12, 30px);
   row-gap: 6px;
   column-gap: 6px;
+  max-height: 300px;
+  overflow-y: auto;
 
   img {
     width: 30px;

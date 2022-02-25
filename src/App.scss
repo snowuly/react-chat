@@ -108,6 +108,11 @@ $active-color: #1679f5;
         padding: 2px;
       }
 
+      .user-loading {
+        display: flex;
+        justify-content: center;
+      }
+
       ul {
         padding-left: 4px;
         list-style: none;

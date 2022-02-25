@@ -8,6 +8,7 @@ import { msg2items, MsgItemType, MsgItem, tag2index, tag2url, tag2dom } from './
 import Popover from './components/popover'
 import happy from './happy.svg'
 import useRecentEmotion from './hooks/useRecentEmotion'
+import Loading from './components/Loading'
 
 interface Msg {
   ID: string
@@ -155,15 +156,18 @@ function App() {
 
   }, [msgs])
 
+  const [userLoading, setUserLoading] = useState(false)
   useEffect(() => {
     if (!user) {
       return
     }
 
+    setUserLoading(true)
     const evtSrc = new EventSource('/go/sse')
 
     evtSrc.addEventListener('users', evt => {
       setOnlineUsers(window.JSON.parse((evt as MessageEvent).data))
+      setUserLoading(false)
     })
     
     evtSrc.addEventListener('msg', evt => {
@@ -331,19 +335,22 @@ function App() {
         </section>
         <aside>
           <header>在线用户（{ users.length }）</header>
-          <ul>
-            { users.map(u => (
-              <li
-                key={u.ID}
-                className={u.Admin
-                  ? 'admin'
-                  : (u.ID === user ? 'active' : undefined)
-                }
-              >
-                {`${u.ID}（${u.IP}）`}
-              </li>
-            )) }
-          </ul>
+          { userLoading ? <div className="user-loading"><Loading /></div>
+            : (<ul>
+                { users.map(u => (
+                  <li
+                    key={u.ID}
+                    className={u.Admin
+                      ? 'admin'
+                      : (u.ID === user ? 'active' : undefined)
+                    }
+                  >
+                    {`${u.ID}（${u.IP}）`}
+                  </li>
+                )) }
+              </ul>)
+          }
+          
         </aside>
       </main>
       <footer>

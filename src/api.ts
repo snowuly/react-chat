@@ -2,10 +2,10 @@ export const getUser = () => request(
   '/go/user?t=' + Date.now().toString(36),
 )
 
-export const sendMsg = (to: string, txt: string, pri: Boolean) => reqAlert(
+export const sendMsg = (to: string, txt: string, priv: Boolean) => reqAlert(
   '/go/send',
   'POST',
-  { to, txt, pri: pri ? "1" : "" }
+  { to, txt, priv: priv ? "1" : "" }
 )
 
 export const login = (secret: string) => reqAlert(

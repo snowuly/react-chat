@@ -1,5 +1,3 @@
-import { MouseEventHandler, ReactNode } from "react";
-
 const emotion_prefix = 'https://chentao.me/static/emotion/';
 
 // [流鼻血][捂脸哭][开心][色][衰][送花花]
@@ -124,6 +122,7 @@ export const msg2items = (msg: string) => converge(msg2arr(msg))
 
 export const tag2dom = (clickHandler: (tag: string) => void, tag: string) => (
   <img
+    key={tag}
     src={tag2url(tag)}
     title={tag}
     onClick={() => clickHandler(tag)}

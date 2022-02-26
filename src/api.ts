@@ -1,11 +1,24 @@
+/*
+ * @return {string} ${user name}|${is admin}
+ */
 export const getUser = () => request(
   '/go/user?t=' + Date.now().toString(36),
 )
 
-export const sendMsg = (to: string, txt: string, priv: Boolean) => reqAlert(
-  '/go/send',
+export const getRoom = () => reqAlert(
+  '/go/room?t=' + Date.now().toString(36),
+)
+
+export const sendMsg = (room: string, to: string, txt: string, priv: Boolean) => reqAlert(
+  `/go/send?room=${room}`,
   'POST',
   { to, txt, priv: priv ? "1" : "" }
+)
+
+export const joinRoom = (room: string, pwd: string) => reqAlert(
+  `/go/roompwd?room=${room}`,
+  'POST',
+  { pwd }
 )
 
 export const login = (secret: string) => reqAlert(
@@ -14,16 +27,12 @@ export const login = (secret: string) => reqAlert(
   `secret=${encodeURIComponent(secret)}`,
 )
 
-export const isAdmin = () => reqAlert(
-  '/go/admin',
-)
-
-export const clearLog = () => reqAlert(
-  '/go/clear',
+export const clearLog = (room: string) => reqAlert(
+  `/go/clear?room=${room}`,
   'POST',
 )
 
-const request = async (path: string, method: 'GET' | 'POST' = 'GET', body?: string | { [x: string]: string }): Promise<string | undefined> => {
+const request = async (path: string, method: 'GET' | 'POST' = 'GET', body?: string | { [x: string]: string }): Promise<string> => {
   const res = await fetch(
     path,
     {

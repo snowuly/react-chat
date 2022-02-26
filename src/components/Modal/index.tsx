@@ -1,8 +1,8 @@
-import { FC, useEffect } from 'react'
+import { FC, useEffect, useMemo, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 
-const wrapper = document.createElement('div')
 const Modal: FC = ({ children }) => {
+  const wrapper = useMemo(() => document.createElement('div'), [])
   useEffect(() => {
     document.body.appendChild(wrapper)
 

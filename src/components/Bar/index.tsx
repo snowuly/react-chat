@@ -12,7 +12,7 @@ const Bar: FC<Props> = ({ onLogin }) => {
   const user = useContext(UserCtx)
 
   return (
-    <div>
+    <div className="letschat-cnt bar">
       <img className="emotion" src="https://chentao.me/static/emotion/097.png" />
       { user && <><em>{user.name}</em>，你好！</> }
       <button onClick={onLogin}>{user ? '切换' : '登录'}</button>

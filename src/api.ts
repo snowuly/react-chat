@@ -5,14 +5,18 @@ export const getUser = () => request(
   '/go/user?t=' + Date.now().toString(36),
 )
 
-export const getRoom = () => reqAlert(
-  '/go/room?t=' + Date.now().toString(36),
+export const getRooms = () => reqAlert(
+  '/go/rooms?t=' + Date.now().toString(36),
 )
 
-export const sendMsg = (room: string, to: string, txt: string, priv: Boolean) => reqAlert(
+export const getRoomInfo = (id: string) => reqAlert(
+  `/go/room?room=${id}&t=` + Date.now().toString(36),
+)
+
+export const sendMsg = (room: string, token: string, to: string, txt: string, priv: Boolean) => reqAlert(
   `/go/send?room=${room}`,
   'POST',
-  { to, txt, priv: priv ? "1" : "" }
+  { to, txt, priv: priv ? "1" : "", token }
 )
 
 export const joinRoom = (room: string, pwd: string) => reqAlert(
@@ -32,7 +36,7 @@ export const clearLog = (room: string) => reqAlert(
   'POST',
 )
 
-const request = async (path: string, method: 'GET' | 'POST' = 'GET', body?: string | { [x: string]: string }): Promise<string> => {
+const request = async (path: string, method: 'GET' | 'POST' = 'GET', body?: string | { [x: string]: string }) => {
   const res = await fetch(
     path,
     {
@@ -46,15 +50,17 @@ const request = async (path: string, method: 'GET' | 'POST' = 'GET', body?: stri
     },
   )
 
-  const txt = await res.text()
   if (res.status === 200) {
-    return txt
+    if (res.headers.get('content-type')?.includes('json')) {
+      return res.json()
+    }
+    return res.text()
   }
-  throw { code: res.status, msg: txt }
+  throw { code: res.status, msg: await res.text() }
   
 }
 
-const reqAlert = async (path: string, method: 'GET' | 'POST' = 'GET', body?: string | { [x: string]: string }): Promise<string | undefined> => {
+const reqAlert = async (path: string, method: 'GET' | 'POST' = 'GET', body?: string | { [x: string]: string }) => {
   try {
     return await request(path, method, body)
   } catch (e: unknown) {

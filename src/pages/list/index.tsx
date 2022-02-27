@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { getRoom, joinRoom } from '../../api'
+import { getRooms, joinRoom } from '../../api'
 import './index.scss'
 
 type Room = {
@@ -17,9 +17,9 @@ const List = () => {
 
   useEffect(() => {
     (async () => {
-      const res = await getRoom()
+      const res = await getRooms()
       if (res) {
-        setData(JSON.parse(res))
+        setData(res)
       }
     })()
   }, [])
@@ -39,7 +39,8 @@ const List = () => {
   }
 
   return (
-    <div className="list">
+    <>
+      <h3>房间列表：</h3>
       <ul>
         { data.map(item => (
           <li key={item.ID}>
@@ -52,12 +53,12 @@ const List = () => {
                 }}
               >{item.Name} 🔒</Link>
             ) : (
-              <Link to={`/room/${item.ID}`}>{ item.Name }</Link>
+              <Link to={`/room/${item.ID}`}>{ item.Name }（{ item.Num }）</Link>
             ) }
           </li>
         )) }
       </ul>
-    </div>
+    </>
   )
 }
 

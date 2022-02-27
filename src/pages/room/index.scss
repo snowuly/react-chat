@@ -1,48 +1,36 @@
 $border-color: #eee;
 $active-color: #1679f5;
 
-.room-wrapper {
-  display: flex;
-  align-items: center;
-  height: 100vh;
-  min-height: 400px;
-}
-
 .room {
-  width: 100%;
-  max-width: 1024px;
-  min-width: 500px;
-  margin: 0 auto;
-  height: 100%;
-  max-height: 800px;
-  color: #333;
-
-  .emotion {
-    width: 32px;
-    height: 32px;
-    vertical-align: bottom;
-    margin: 0 1px;
-  }
-
-  .active {
-    color: $active-color;
-  }
-
-  a {
-    transition: all 0.3s;
-    cursor: pointer;
-
-    &:hover {
-      color: $active-color;
-    }
-  }
+  height: calc(100% - 39px);
 
   > main {
-    height: calc(100% - 120px);
+    height: calc(100% - 86px);
     display: flex;
     border-left: 1px solid $border-color;
     border-right: 1px solid $border-color;
     position: relative;
+
+    .clear {
+      position: absolute;
+      right: 189px;
+      z-index: 9;
+      top: 4px;
+      font-size: 12px;
+      cursor: pointer;
+      color: #ec3413;
+    }
+
+    .info {
+      position: absolute;
+      right: 2px;
+      top: -28px;
+      font-size: 12px;
+  
+      .title {
+        margin-right: 12px;
+      }
+    }
 
     .news {
       position: absolute;

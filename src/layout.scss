@@ -1,0 +1,41 @@
+.letschat-wrapper {
+  display: flex;
+  align-items: center;
+  height: 100vh;
+  min-height: 400px;
+  color: #333;
+
+  a {
+    color: #000000d9;
+    transition: color .3s;
+
+    &:hover {
+      color: #096dd9;
+    }
+  }
+
+  .letschat-holder {
+    width: 100%;
+    max-width: 1024px;
+    min-width: 500px;
+    margin: 0 auto;
+    height: 100%;
+    max-height: 768px;
+  }
+
+  .emotion {
+    width: 32px;
+    height: 32px;
+    vertical-align: bottom;
+    margin: 0 1px;
+  }
+
+  .loading-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+  }
+}
+
+

@@ -4,6 +4,8 @@ import { createContext, useEffect, useState } from 'react'
 import { getUser, login } from './api'
 import Loading from './components/Loading'
 
+import './layout.scss'
+
 type User = {
   name: string
   admin: boolean
@@ -26,25 +28,27 @@ const str2user = (str: string): User => {
 
 const Layout = () => {
   const [user, setUser] = useState<User|undefined>(undefined)
+  const [loading, setLoading] = useState(false)
 
   const doLogin = async () => {
-    while (true) {
-      let secret = window.prompt("请输入悄悄话登录，有疑问找大厨")
-      if (secret === null) {
-        return
-      }
-      secret = secret.trim()
-      if (secret === '') {
-        alert('不能为空')
-        continue
-      }
-  
-      const res = await login(secret) // string: name|isAdmin
-      if (res) {
-        setUser(str2user(res))
-        return
-      }
+    let secret = window.prompt("请输入悄悄话登录，有疑问找大厨")
+    if (secret === null) {
+      return
     }
+    secret = secret.trim()
+    if (secret === '') {
+      alert('不能为空')
+      doLogin()
+    }
+    
+    setLoading(true)
+    const res = await login(secret) // string: name|isAdmin
+    setLoading(false)
+    if (res) {
+      setUser(str2user(res))
+      return
+    }
+    setTimeout(doLogin, 200)
   }
 
   useEffect(() => {
@@ -59,8 +63,16 @@ const Layout = () => {
 
   return (
     <UserCtx.Provider value={user}>
-      <Bar onLogin={doLogin} />
-      { user ? <Outlet /> : <Loading /> }
+      <div className="letschat-wrapper">
+        <div className='letschat-holder'>
+          <Bar onLogin={doLogin} />
+          { user ? <Outlet /> :  (
+            <div className="loading-wrapper">
+              { loading ? <Loading /> : <h1>Let's Chat</h1> }
+            </div>
+          )}
+        </div>
+      </div>
     </UserCtx.Provider>
   )
 }

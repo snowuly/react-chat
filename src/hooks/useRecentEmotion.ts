@@ -25,8 +25,18 @@ const useRecentEmotion = (): [string[], (x: string) => void] => {
 
   const setLastItem = useCallback((tag: string) => {
     setArr((cur) => {
-      const result = [ tag, ...cur ]
-      return result.length > MAX ? result.slice(0, -1) : result
+      const result = [...cur]
+
+      const index = result.indexOf(tag)
+      if (index >= 0) {
+        result.splice(index, 1)
+      } else if (result.length >= MAX) {
+        result.pop()
+      }
+
+      result.unshift(tag)
+
+      return result
     })
   }, [])
 

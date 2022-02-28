@@ -4,7 +4,7 @@ import './index.scss';
 
 import { sendMsg, joinRoom, getRoomInfo, clearLog } from '../../api'
 import Info from '../../components/Info'
-import { msg2items, MsgItemType, MsgItem, tag2index, tag2url, tag2dom } from '../../utils'
+import { msg2items, MsgItemType, MsgItem, tag2index, tag2dom } from '../../utils'
 import Popover from '../../components/popover'
 import happy from './happy.svg'
 import useRecentEmotion from '../../hooks/useRecentEmotion'
@@ -68,7 +68,9 @@ function Room() {
       const el = inputRef.current!
       el.focus()
       el.setRangeText(`[${tag}]`, el.selectionStart, el.selectionEnd, 'end')
-      setLastTag(tag)
+      setTimeout(() => {
+        setLastTag(tag)
+      }, 100)
   }, [])
 
   const bindTag2dom = useMemo(() => tag2dom.bind(null, insertEmotion), [])

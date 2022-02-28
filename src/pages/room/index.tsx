@@ -74,6 +74,7 @@ function Room() {
   }, [])
 
   const bindTag2dom = useMemo(() => tag2dom.bind(null, insertEmotion), [])
+  const defaultEmtion = useMemo(() => Object.keys(tag2index).map(bindTag2dom), [])
 
   const layer = useMemo(() => (
     <>
@@ -85,7 +86,7 @@ function Room() {
       </>) }
       <header>默认表情</header>
       <main>
-        { Object.keys(tag2index).map(bindTag2dom) }
+        { defaultEmtion }
       </main>
     </>
   ), [tags])

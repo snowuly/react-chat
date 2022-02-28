@@ -1,5 +1,4 @@
-import { FC, useContext, useEffect, useState } from "react"
-import { getUser, login, clearLog } from "../../api"
+import { FC, useContext } from "react"
 
 import './index.scss'
 import { UserCtx } from "../../layout"
@@ -13,7 +12,7 @@ const Bar: FC<Props> = ({ onLogin }) => {
 
   return (
     <div className="letschat-cnt bar">
-      <img className="emotion" src="https://chentao.me/static/emotion/097.png" />
+      <img alt="DogHead" className="emotion" src="https://chentao.me/static/emotion/097.png" />
       { user && <><em>{user.name}</em>，你好！</> }
       <button onClick={onLogin}>{user ? '切换' : '登录'}</button>
     </div>

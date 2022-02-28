@@ -11,7 +11,7 @@ const Popover: FC<Props> = ({ content, children, className }) => {
   const [visible, setVisible] = useState(false)
   const trigger = useRef<HTMLElement>(null)
   const wrapper = useRef<HTMLDivElement>(null)
-  const [pos, setPos] = useState({ x: 0, y: 0, w: 0 })
+  const pos = useRef({ x: 0, y: 0, w: 0 })
 
   const onClick = (e: MouseEvent) => {
     e.stopPropagation();
@@ -21,7 +21,7 @@ const Popover: FC<Props> = ({ content, children, className }) => {
     }
 
     const rect = trigger.current!.getBoundingClientRect()
-    setPos({ x: rect.x, y: rect.y, w: rect.width })
+    pos.current = { x: rect.x, y: rect.y, w: rect.width }
 
     setTimeout(() => {
       setVisible(v => true)
@@ -37,8 +37,8 @@ const Popover: FC<Props> = ({ content, children, className }) => {
 
     if (visible) {
       const rect = wrapper.current!.getBoundingClientRect()
-      el.style.left = pos.x - Math.floor((el.offsetWidth - pos.w) / 2) + 'px'
-      el.style.top = pos.y - rect.height - 5 + window.scrollY + 'px'
+      el.style.left = pos.current.x - Math.floor((el.offsetWidth - pos.current.w) / 2) + 'px'
+      el.style.top = pos.current.y - rect.height - 5 + window.scrollY + 'px'
 
     }
     const fn = () => {

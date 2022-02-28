@@ -1,4 +1,4 @@
-import { FC, useEffect, useMemo, useRef, useState } from 'react'
+import { FC, useEffect, useMemo, useRef } from 'react'
 import { createPortal } from 'react-dom'
 
 const Modal: FC = ({ children }) => {
@@ -9,7 +9,7 @@ const Modal: FC = ({ children }) => {
     return () => {
       document.body.removeChild(wrapper)
     }
-  }, [])
+  }, [wrapper])
 
   return createPortal(children, wrapper)
 }

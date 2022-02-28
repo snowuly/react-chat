@@ -4,6 +4,10 @@ $active-color: #1679f5;
 .room {
   height: calc(100% - 39px);
 
+  .active {
+    color: $active-color;
+  }
+
   > main {
     height: calc(100% - 86px);
     display: flex;
@@ -106,6 +110,8 @@ $active-color: #1679f5;
           &.admin {
             color: rgb(236, 52, 19);
           }
+
+          &
         }
       }
     }

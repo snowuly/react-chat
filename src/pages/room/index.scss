@@ -4,6 +4,10 @@ $active-color: #1679f5;
 .room {
   height: calc(100% - 39px);
 
+  textarea, & select {
+    background-color: transparent;
+  }
+
   .active {
     color: $active-color;
   }
